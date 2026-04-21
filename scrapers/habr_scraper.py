@@ -46,6 +46,7 @@ class HabrScraper(BaseScraper):
                 # Дата
                 date_element = element.find("time")
                 date = date_element["datetime"] if date_element else ""
+                gl = self.artical_screp(full_url)
 
                 articles.append({
                     "источник": "Habr",
@@ -53,7 +54,8 @@ class HabrScraper(BaseScraper):
                     "ссылка": full_url,
                     "автор": author,
                     "рейтинг": rating,
-                    "дата": date
+                    "дата": date,
+                    "текст": gl
                 })
             except Exception as e:
                 print(f"Ошибка при извлечении статьи: {e}")
@@ -74,3 +76,10 @@ class HabrScraper(BaseScraper):
         """
         urls = [f"{self.base_url}/ru/hub/{hub_name}/page{i}/" for i in range(1, pages + 1)]
         return self.run(urls)
+    
+
+    def artical_screp(self, url):
+        res = self.get_page(url)
+        soap = self.parse_html(res.text)
+        gg = soap.find("div", class_ = "article-body")
+        return gg.text.strip()

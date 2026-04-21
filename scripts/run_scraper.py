@@ -31,7 +31,7 @@ def run_habr_scraper():
     logger.info("Запуск скрапера для Habr")
 
     scraper = HabrScraper()
-    urls = [f"https://habr.com/ru/hub/python/page{i}/" for i in range(1, 3)]
+    urls = [f"https://habr.com/ru/hub/python/page{i}/" for i in range(1, 2)]
 
     data = scraper.run(urls, "data/raw/habr_articles.json")
     logger.info(f"Собрано {len(data)} статей с Habr")
